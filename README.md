@@ -1,12 +1,10 @@
-
 ////////////
 DINO GAME 3D
 ////////////
-
-
 _____________________________________________________
-/////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
 COMPTE RENDUS du PROJET TSI 3ETI GRPA
+///////////////////////////////////////////////////////
 
 RIVAUX Léonard / DZIOPA Raphaël
 
@@ -26,7 +24,6 @@ IV. La generation aléatoire des obstacles
 V. La mise en Jeux
 
 _____________________________________________________
-/////////////////////////////////////////////////////
 I. La structure et l'utilisation de OPENGL
 
 Premièrement le code du projet suit une structure standard pour l'utilisation d'OPENGL.
@@ -48,7 +45,6 @@ main()
 
 
 _____________________________________________________
-/////////////////////////////////////////////////////
 II. La creation des objects et leurs sommets
 
 Chaque object qui seras crée dans le jeux à 1 focntion attribuée qui est charger 
@@ -57,13 +53,10 @@ de crée les indices et vertices pour chaque object.
 On à dus creer des sous fonctions pour faire des formes simple pour avoir un 
 assemblage plus simple.
 _____________________________________________________
-/////////////////////////////////////////////////////
 III. La logique de collision
 
 _____________________________________________________
-/////////////////////////////////////////////////////
 IV. La generation aléatoire des obstacles
 
 _____________________________________________________
-/////////////////////////////////////////////////////
 V. La mise en Jeux
