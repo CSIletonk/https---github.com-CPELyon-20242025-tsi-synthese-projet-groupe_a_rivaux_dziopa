@@ -30,15 +30,15 @@ la fenêtre OPENGL et necessaires du jeux.
 main()
 
 └── Game()
- 	├── __init__(self)		← Création des varibles et textures	
-     	├── init_window()		← Création de la fenêtre GLFW
-     	├── init_context()     		← Activation d’OpenGL
-     	├── init_programs()    		← Chargement des shaders
-     	├── init_data()        		← Données des objects 3D (VAO, VBO, IBO) 
-     	├── run()			← 
-     	├── key_callback()		← 
-     	├── main()			← 
-	└── Fonctions à sommets		← 
+- ├── __init__(self)		← Création des varibles et textures	
+- ├── init_window()		← Création de la fenêtre GLFW
+- ├── init_context()     	← Activation d’OpenGL
+- ├── init_programs()    	← Chargement des shaders
+- ├── init_data()        	← Données des objects 3D (VAO, VBO, IBO) 
+- ├── run()			← 
+- ├── key_callback()		← 
+- ├── main()			← 
+- └── Fonctions à sommets	← 
 
 
 
@@ -50,6 +50,9 @@ de crée les indices et vertices pour chaque object.
 
 On à dus creer des sous fonctions pour faire des formes simple pour avoir un 
 assemblage plus simple.
+
+> [!NOTE]
+> Pour le bon fonctionnement des mesh chaque.
 _____________________________________________________
 ## III. La logique de collision
 
