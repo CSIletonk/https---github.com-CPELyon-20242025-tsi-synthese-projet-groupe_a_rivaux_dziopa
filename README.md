@@ -45,13 +45,54 @@ main()
 _____________________________________________________
 ## II. La creation des objects et leurs sommets
 
-Chaque object qui seras crée dans le jeux à 1 focntion attribuée qui est charger 
-de crée les indices et vertices pour chaque object.
+Chaque object qui seras crée dans le jeux à 1 fonction attribuée qui est chargé 
+de crée les indices et vertices pour chaque object. On à dus creer des sous fonctions 
+pour faire des formes simple pour avoir un assemblage plus simple.
 
-On à dus creer des sous fonctions pour faire des formes simple pour avoir un 
-assemblage plus simple.
 
-> [!NOTE]
+On à crée plusieurs objests demandé par les different obstacles du jeux.
+Premièrement on à crée le sol, qui agiras comme le terrain du jeu.
+Définie dans la fonction: "create_plane" qui crée un carré grâce à 4 sommets.
+
+Pour la suite des fonction de creation d'objects on à crée des sous programmes
+qui génèrent des forms que l'on peut reutiliser plusieurs fois dans le même objet
+ou dans d'autres objets. Leur structure est similaire. Ces fonctions sont :
+
+** generate_sphere_mesh( _rayon_ , _nombre de segments de latitude_ , _nombre de segments de longitude_ ) **
+
+Cette fonction nous à été fournie, mais calcule pour chaque sommet sa position en 
+latitude et longitude grâce à des equation trigonométrique. On peut choisir en entrée 
+le rayon de la sphere, et sa "resolution" soit le sombre de sommets total de la 
+sphere qui la rends plus lisse si on augmente le nombre ou plus pointue en diminuant 
+le nombre de sommets.
+On fait attention comme dans les autres fonctions de creation de sommets pour éviter 
+toute érreur de buffer de bien formater les indices et les vertices avec np.array().
+
+** "generate_cylinder_mesh( _rayon_ , _longueur_ , _segments_ , _inversion_)" **
+
+Cette fonction nous à aussi été fournie, mais nous avons ajouté quelques modifications.
+La fonction crée des cylindres de rayon, taille et de "resolution" (le nombre de sommets,
+similaire à la fonction de sphère) modifiables. Le calcul des sommets est fait grâce au 
+cosinus et sinus et un variable sur x ou y pour la hauteur du cylindre. C'est ici que 
+nous avons modifier la fonction, ajoutant un variable "d'invertion" pour choisir si le
+cylindre est placer en longeur selon l'axe des x ou l'axe des y, dus au demandes pour 
+les objets de jeux.
+De même, il faut pour éviter toute érreur de buffer, bien formater les indices et les 
+vertices avec np.array().
+
+** "generate_wing_mesh( _taille_ , _inversion_ , _temps_ )" **
+
+Cette fonction est simplement la creation d'un triangle entièrement modifiable de sa
+taille et de son sens par inversion. L'inversion ici inverse les triangles possible
+par symétrie selon le plan xy. Ceci change à la fois la position des sommets mais 
+aussi les face haute et le basses du triangle ce qui est corrigé en inversant les
+indices du triangle. De plus on ajoute dans la creation des sommets "time", ceci 
+est pour crée un object dynamique, et varie donc 1 sommet du triangle sur l'axe
+des y pour imiter un movement de battement des ailes ensuite.On formate aussi les 
+indices et les vertices avec np.array().
+
+
+> [!IMPORTANT]
 > Pour le bon fonctionnement des mesh chaque.
 _____________________________________________________
 ## III. La logique de collision
