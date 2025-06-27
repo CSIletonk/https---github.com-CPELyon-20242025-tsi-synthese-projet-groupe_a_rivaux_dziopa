@@ -1,12 +1,14 @@
+
+////////////
+DINO GAME 3D
+////////////
+
+
 _____________________________________________________
 /////////////////////////////////////////////////////
 COMPTE RENDUS du PROJET TSI 3ETI GRPA
 
 RIVAUX Léonard / DZIOPA Raphaël
-
-////////////
-DINO GAME 3D
-////////////
 
 Ce projet de TSI consiste à utiliser la librairie OPENGL
 et ses outil pour crée un simple jeux en trois dimension.
