@@ -70,44 +70,44 @@ toute erreur de buffer de bien formater les indices et les vertices avec np.arra
 
 **generate_cylinder_mesh( _rayon_ , _longueur_ , _segments_ , _inversion_)**
 
-Cette fonction nous à aussi été fournie, mais nous avons ajouté quelques modifications.
-La fonction crée des cylindres de rayon, taille et de "resolution" (le nombre de sommets,
+Cette fonction nous a aussi été fournie, mais nous avons ajouté quelques modifications.
+La fonction crée des cylindres de rayon de taille et de "résolution" (le nombre de sommets,
 similaire à la fonction de sphère) modifiables. Le calcul des sommets est fait grâce au 
-cosinus et sinus et un variable sur x ou y pour la hauteur du cylindre. C'est ici que 
+cosinus et sinus et une variable sur x ou y pour la hauteur du cylindre. C'est ici que 
 nous avons modifier la fonction, ajoutant un variable "d'invertion" pour choisir si le
-cylindre est placer en longeur selon l'axe des x ou l'axe des y, dus au demandes pour 
+cylindre est placé en longueur selon l'axe des x ou l'axe des y, dû aux demandes pour 
 les objets de jeux.
-De même, il faut pour éviter toute érreur de buffer, bien formater les indices et les 
+De même, il faut pour éviter toute erreur de buffer, bien formater les indices et les 
 vertices avec np.array().
 
 **generate_wing_mesh( _taille_ , _inversion_ , _temps_ )**
 
-Cette fonction est simplement la creation d'un triangle entièrement modifiable de sa
+Cette fonction est simplement la création d'un triangle entièrement modifiable de sa
 taille et de son sens par inversion. L'inversion ici inverse les triangles possible
 par symétrie selon le plan xy. Ceci change à la fois la position des sommets mais 
-aussi les face haute et le basses du triangle ce qui est corrigé en inversant les
-indices du triangle. De plus on ajoute dans la creation des sommets "time", ceci 
-est pour crée un object dynamique, et varie donc 1 sommet du triangle sur l'axe
-des y pour imiter un movement de battement des ailes ensuite. On formate aussi les 
+aussi les face haute et se basses du triangle ce qui est corrigé en inversant les
+indices du triangle, de plus on ajoute dans la creation des sommets "time", ceci 
+est pour créer un objet dynamique, et varie donc 1 sommet du triangle sur l'axe
+des y pour imiter un mouvement de battement des ailes ensuite. On formate aussi les 
 indices et les vertices avec np.array().
 
 **generate_head_mesh( _taille_ , _inversion_ )**
 
 Cette fonction crée une forme de tête, modifiable en taille, qui ici est deux triangles 
-connectées par leur hypoténuse. Ici on crée donc 4 sommets avec 2 sommets qui sont 
-partagées (ceux de l'hypoténuse). De plus on à remis l'option d'inverser le sens des 
-triangles. Il y à le même formatage des indices et les vertices avec np.array().
+connectées par leur hypoténuses. Ici on crée donc 2 triangles avec 2 sommets qui sont 
+partagés (ceux de l'hypoténuse). De plus on a remis l'option d'inverser le sens des 
+triangles. Il y a le même formatage des indices et les vertices avec np.array().
 
 ### Création des objets de jeux ###
 
-Deuxièmement on à crée le joueur, soit le modèle du dinosaure. Ici pour simplifier
-le modèle 3D de ce dinosaure, sachant que le joueur ne le véras que de dos, nous
-avons choisi une forme simple compose de cylindres et d'une sphere pour la tête.
+Deuxièmement on a créé le joueur, soit le modèle du dinosaure. Ici pour simplifier
+le modèle 3D de ce dinosaure, sachant que le joueur ne le verra que de dos, nous
+avons choisi une forme simple composé de cylindres et d'une sphère pour la tête.
 La fonction liée "generate_dino" fonctionne de la même manière que les fonctions
 "generate_pterodactyl" et "generate_cactus".
 
 Ces fonctions utilisent une matrice pour organiser le placement des divers objet
-comme les cylindres, triangles ou sphère utilisées pour ce modèle. Par example, 
+comme les cylindres, triangles ou sphère utilisées pour ce modèle. Par exemple, 
 la matrice de la fonction generate_dino :\
 dino_pixels = [\
         [0, 0, 1, 0, 0],\
@@ -117,22 +117,22 @@ dino_pixels = [\
         [0, 0, 0, 0, 0],\
         [0, 0, 0, 0, 0]]
 
-Puis pour chaque modèle on definit les axes selon lesquels on veut diriger les modèle, 
-ici étant la matrice de l'objet. Par example, le cactus pour être defini debout, il
+Puis pour chaque modèle on définit les axes selon lesquels on veut diriger les modèle, 
+ici étant la matrice de l'objet. Par exemple, le cactus pour être défini debout, il
 est défini selon x et y. Donc la matrice montre un modèle sur une vue selon l'axe z. 
 
-Puis pour lire la matrice on attribue diférentes valeurs pour différent object 
-de bases, par example dans la fonction generate_dino, dans sa matrice on defini 
-la valeur 1 pour creer un sphere qui ici est placé en haut du modèle. Cette partie
-fait appèle au fonction de formes simples mentionnée précédament.
+Puis pour lire la matrice on attribue différentes valeurs pour différents objects
+de bases, par example dans la fonction generate_dino, dans sa matrice on définit 
+la valeur 1 pour créer un sphère qui ici est placé en haut du modèle. Cette partie
+fait appele au fonction de formes simples mentionnée précédemment.
 > [!IMPORTANT]
-> Pour le bon fonctionnement des mesh de chaque objet on à du transformer un mesh
+> Pour le bon fonctionnement des mesh de chaque objet on a dû transformer un mesh
 > séparé de chaque forme avec flatten() et to list().
 > Puis on décale les indices des sommets selon leur placement de la matrice et on combine
-> tout les sommets emsembles.
+> tous les sommets emsemble.
 
 Puis on renvoie respectivement le VBO et l'IBO avec interlaced et faces, soit les
-sommets eu même et leur indices.
+sommets eux-mêmes et leur indices.
 
 _____________________________________________________
 ## III. La logique de collision
