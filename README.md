@@ -5,27 +5,26 @@ _____________________________________________________
 
 RIVAUX Léonard / DZIOPA Raphaël
 
-Ce projet de TSI consiste à utiliser la librairie OPENGL
-et ses outil pour crée un simple jeux en trois dimension.
+Ce projet de TSI consiste à utiliser la librairie OPENGL  
+et ses outils pour créer un simple jeu en trois dimensions.
 
-Nous avons choisis de reprendre l'idée du "Dino game", étant un 
-jeux de course à obstacle, étant inspire du jeux intégré du browser
-google chrome, accessible lors du manque de connexion.
+Nous avons choisi de reprendre l'idée du "Dino game", étant un  
+jeu de course à obstacles, inspiré du jeu intégré du browser  
+Google Chrome, accessible lors du manque de connexion.
 
-
-Ce projet est séparée en 5 parties, étant les suivantes :\
-I. La structure et l'utilisation de OPENGL\
-II. La creation des objects et leurs sommets\
-III. La logique de collision\
-IV. La generation aléatoire des obstacles\
-V. La mise en Jeux
+Ce projet est séparé en 5 parties, étant les suivantes :  
+I. La structure et l'utilisation d'OPENGL  
+II. La création des objets et leurs sommets  
+III. La logique de collision  
+IV. La génération aléatoire des obstacles  
+V. La mise en jeu
 
 _____________________________________________________
 ## I. La structure et l'utilisation de OPENGL
 
-Premièrement le code du projet suit une structure standard pour l'utilisation d'OPENGL.
-On utilise pour le jeux une Class "GAME()" pour les plusieurs variables différentes de 
-la fenêtre OPENGL et necessaires du jeux.
+Premièrement, le code du projet suit une structure standard pour l'utilisation d'OPENGL.  
+On utilise pour le jeu une classe `GAME()` pour les plusieurs variables différentes de  
+la fenêtre OPENGL et nécessaires du jeu.
 
 main()
 
@@ -45,29 +44,29 @@ main()
 _____________________________________________________
 ## II. La creation des objects et leurs sommets
 
-Chaque object qui seras crée dans le jeux à 1 fonction attribuée qui est chargé 
-de crée les indices et vertices pour chaque object. On à dus creer des sous fonctions 
-pour faire des formes simple pour avoir un assemblage plus simple. On à crée plusieurs 
-objests demandé par les different obstacles du jeux.
+Chaque objet qui sera créé dans le jeu a une fonction attribuée qui est chargée 
+de créer les indices et vertices pour chaque object. On a dû créer des sous fonctions 
+pour faire des formes simples pour avoir un assemblage plus simple. On a créé plusieurs 
+objets demandés par les different obstacles du jeu.
 
 ### Création du sol et des formes simples ###
 
-Premièrement on à crée le sol, qui agiras comme le terrain du jeu.
+Premièrement on a créé le sol, qui agira comme le terrain du jeu.
 Définie dans la fonction: **create_plane** qui crée un carré grâce à 4 sommets.
 
-Pour la suite des fonction de creation d'objects on à crée des sous programmes
-qui génèrent des forms que l'on peut reutiliser plusieurs fois dans le même objet
+Pour la suite des fonction de création d'objets on à crée des sous programmes
+qui génèrent des formes que l'on peut réutiliser plusieurs fois dans le même objet
 ou dans d'autres objets. Leur structure est similaire. Ces fonctions sont :
 
 **generate_sphere_mesh( _rayon_ , _nombre de segments de latitude_ , _nombre de segments de longitude_ )** 
 
-Cette fonction nous à été fournie, mais calcule pour chaque sommet sa position en 
-latitude et longitude grâce à des equation trigonométrique. On peut choisir en entrée 
-le rayon de la sphere, et sa "resolution" soit le sombre de sommets total de la 
-sphere qui la rends plus lisse si on augmente le nombre ou plus pointue en diminuant 
+Cette fonction nous a été fournie, mais calcule pour chaque sommet sa position en 
+latitude et longitude grâce à des équations trigonométriques. On peut choisir en entrée 
+le rayon de la sphere, et sa "resolution" soit le nombre de sommets totaux de la 
+sphère qui la rend plus lisse si on augmente le nombre ou plus pointue en diminuant 
 le nombre de sommets.
 On fait attention comme dans les autres fonctions de creation de sommets pour éviter 
-toute érreur de buffer de bien formater les indices et les vertices avec np.array().
+toute erreur de buffer de bien formater les indices et les vertices avec np.array().
 
 **generate_cylinder_mesh( _rayon_ , _longueur_ , _segments_ , _inversion_)**
 
