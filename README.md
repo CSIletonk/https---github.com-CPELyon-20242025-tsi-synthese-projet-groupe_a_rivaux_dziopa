@@ -58,7 +58,7 @@ Pour la suite des fonction de creation d'objects on à crée des sous programmes
 qui génèrent des forms que l'on peut reutiliser plusieurs fois dans le même objet
 ou dans d'autres objets. Leur structure est similaire. Ces fonctions sont :
 
-** generate_sphere_mesh( _rayon_ , _nombre de segments de latitude_ , _nombre de segments de longitude_ ) **
+**generate_sphere_mesh( _rayon_ , _nombre de segments de latitude_ , _nombre de segments de longitude_ )** 
 
 Cette fonction nous à été fournie, mais calcule pour chaque sommet sa position en 
 latitude et longitude grâce à des equation trigonométrique. On peut choisir en entrée 
@@ -68,7 +68,7 @@ le nombre de sommets.
 On fait attention comme dans les autres fonctions de creation de sommets pour éviter 
 toute érreur de buffer de bien formater les indices et les vertices avec np.array().
 
-** "generate_cylinder_mesh( _rayon_ , _longueur_ , _segments_ , _inversion_)" **
+**generate_cylinder_mesh( _rayon_ , _longueur_ , _segments_ , _inversion_)**
 
 Cette fonction nous à aussi été fournie, mais nous avons ajouté quelques modifications.
 La fonction crée des cylindres de rayon, taille et de "resolution" (le nombre de sommets,
@@ -80,7 +80,7 @@ les objets de jeux.
 De même, il faut pour éviter toute érreur de buffer, bien formater les indices et les 
 vertices avec np.array().
 
-** "generate_wing_mesh( _taille_ , _inversion_ , _temps_ )" **
+**generate_wing_mesh( _taille_ , _inversion_ , _temps_ )**
 
 Cette fonction est simplement la creation d'un triangle entièrement modifiable de sa
 taille et de son sens par inversion. L'inversion ici inverse les triangles possible
@@ -90,6 +90,209 @@ indices du triangle. De plus on ajoute dans la creation des sommets "time", ceci
 est pour crée un object dynamique, et varie donc 1 sommet du triangle sur l'axe
 des y pour imiter un movement de battement des ailes ensuite.On formate aussi les 
 indices et les vertices avec np.array().
+
+**generate_head_mesh( _taille_ , _inversion_ )**
+
+Cette fonction crée une forme de tête, modifiable en taille, qui ici est deux triangles 
+connectées par leur hypoténuse. Ici on crée donc 4 sommets avec 2 sommets qui sont 
+partagées (ceux de l'hypoténuse). De plus on à remis l'option d'inverser le sens des 
+triangles pour lequel 
+
+    if inverted:
+        indices = [
+            0, 2, 1,  # ABC (inverted)
+            0, 3, 2,  # ADC (inverted)
+        ]
+    else:
+        indices = [
+            1, 2, 0,  # ABC
+            2, 3, 0,  # ACD
+        ]
+
+    return {
+        'interlaced': np.array(vertices, dtype=np.float32),
+        'faces': np.array(indices, dtype=np.uint32)
+    }
+
+
+
+Deuxièmement on à crée le joueur, soit le modèle du dinosaure. Ici pour simplifier
+le modèle 3D de ce dinosaure, sachant que le joueur ne le véras que de dos, nous
+avons choisi une forme simple compose de cylindres et d'une sphere pour la tête.
+La fonction liée "generate_dino" fonctionne de la même manière que les fonctions
+"generate_pterodactyl" et "generate_cactus".
+
+def generate_dino():
+    spacing = 1
+
+    dino_pixels = [
+        [0, 0, 1, 0, 0],
+        [0, 0, 2, 0, 0],
+        [0, 0, 2, 0, 0],
+        [0, 0, 2, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+    ]
+
+    dino_pixels = dino_pixels[::-1]
+
+    full_vertices = []
+    full_indices = []
+    index_offset = 0
+
+    for y, row in enumerate(dino_pixels):
+        for x, val in enumerate(row):
+
+            if val == 0:
+                continue
+
+            cx = -x * spacing
+            cz = 0
+            cy = y/2 * spacing
+
+            size = 2
+
+            if val == 1:
+                mesh = generate_sphere_mesh(0.4, 16, 32)
+            elif val == 2:
+                mesh = generate_cylinder_mesh((size/6), 1.0, 16, False)
+
+            vertices = np.array(mesh['interlaced'], dtype=np.float32).flatten().tolist()
+            indices = mesh['faces'].flatten().tolist()
+
+            # Translate vertices
+            for i in range(0, len(vertices), 11):
+                vertices[i + 0] += cx  # x
+                vertices[i + 1] += cy  # y
+                vertices[i + 2] += cz  # z
+
+            # Offset and flatten indices
+            flat_indices = [i + index_offset for i in indices]
+            index_offset += len(vertices) // 11
+
+            full_vertices.extend(vertices)
+            full_indices.extend(flat_indices)
+
+    return {
+        'interlaced': np.array(full_vertices, dtype=np.float32),
+        'faces': np.array(full_indices, dtype=np.uint32)
+    }
+
+
+def generate_pterodactyl(time):
+    spacing = 1
+
+    pterodactyl_pixels = [
+        [0, 0, 1, 0, 0],
+        [0, 0, 1, 0, 0],
+        [0, 0, 1, 0, 0],
+        [0, 3, 1, 2, 0],
+        [0, 0, 4, 0, 0],
+        [0, 0, 0, 0, 0],
+    ]
+
+    pterodactyl_pixels = pterodactyl_pixels[::-1]
+
+    full_vertices = []
+    full_indices = []
+    index_offset = 0
+
+    for y, row in enumerate(pterodactyl_pixels):
+        for x, val in enumerate(row):
+
+            if val == 0:
+                continue
+
+            cx = y * spacing
+            cz = x * spacing
+            cy = 0
+
+            size = 3
+
+            if val == 1:
+                mesh = generate_cylinder_mesh((size/6), 1.0, 16, True)
+            elif val == 2:
+                mesh = generate_wing_mesh(size+1,False,time)
+            elif val == 3:
+                mesh = generate_wing_mesh(size+1,True,time)
+            elif val == 4:
+                mesh = generate_head_mesh(size,False)
+
+            vertices = np.array(mesh['interlaced'], dtype=np.float32).flatten().tolist()
+            indices = mesh['faces'].flatten().tolist()
+
+            # Translate vertices
+            for i in range(0, len(vertices), 11):
+                vertices[i + 0] += cx  # x
+                vertices[i + 1] += cy  # y
+                vertices[i + 2] += cz  # z
+
+            # Offset and flatten indices
+            flat_indices = [i + index_offset for i in indices]
+            index_offset += len(vertices) // 11
+
+            full_vertices.extend(vertices)
+            full_indices.extend(flat_indices)
+
+    return {
+        'interlaced': np.array(full_vertices, dtype=np.float32),
+        'faces': np.array(full_indices, dtype=np.uint32)
+    }
+
+def generate_cactus():
+    spacing = 1
+
+    cactus_pixels = [
+        [0, 0, 2, 0, 0],
+        [0, 0, 1, 2, 0],
+        [0, 2, 1, 1, 0],
+        [0, 1, 1, 1, 0],
+        [0, 0, 1, 0, 0],
+        [0, 0, 1, 0, 0],
+    ]
+
+    cactus_pixels = cactus_pixels[::-1]
+
+    full_vertices = []
+    full_indices = []
+    index_offset = 0
+
+    for y, row in enumerate(cactus_pixels):
+        for x, val in enumerate(row):
+            cx = x * spacing
+            cy = y * spacing
+            cz = 0
+
+            if val == 2:
+                mesh_sph = generate_sphere_mesh(0.5, 16, 32)
+                vertices = np.array(mesh_sph['interlaced'], dtype=np.float32).flatten().tolist()
+                indices = mesh_sph['faces']
+
+            elif val == 1:
+                mesh = generate_cylinder_mesh(0.5, 2, 16, False)
+                vertices = np.array(mesh['interlaced'], dtype=np.float32).flatten().tolist()
+                indices = mesh['faces']
+            else:
+                continue  # Skip zeros
+
+            # Translate vertices
+            for i in range(0, len(vertices), 11):
+                vertices[i + 0] += cx  # x
+                vertices[i + 1] += cy  # y
+                vertices[i + 2] += cz  # z
+
+            # Offset and flatten indices
+            flat_indices = np.array(indices).flatten().tolist()
+            flat_indices = [i + index_offset for i in flat_indices]
+
+            index_offset += len(vertices) // 11
+            full_vertices.extend(vertices)
+            full_indices.extend(flat_indices)
+
+    return {
+        'interlaced': np.array(full_vertices, dtype=np.float32),
+        'faces': np.array(full_indices, dtype=np.uint32)
+    }
 
 
 > [!IMPORTANT]
